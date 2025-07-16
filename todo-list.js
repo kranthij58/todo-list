@@ -1,38 +1,55 @@
-const addTodoElem = document.querySelector('.Add-button');
-let todoList=[];
-addTodoElem.addEventListener('click',() =>{
-let name = document.querySelector('.Todo-name').value;
-let date = document.querySelector('.Todo-date').value;
-document.querySelector('.Todo-name').value = ' ';
-if(!name || name === ' '){
-  name = '----------';
-}if(!date){
-  date = '----------';
+const todoInput = document.getElementById('todoInput');
+const addBtn = document.getElementById('addBtn');
+const todoList = document.getElementById('todoList');
+
+let todos = [];
+
+function addTodo() {
+    const text = todoInput.value.trim();
+    if (text === '') return;
+    
+    const todo = {
+        id: Date.now(),
+        text: text,
+        completed: false
+    };
+    
+    todos.push(todo);
+    todoInput.value = '';
+    renderTodos();
 }
-//all is left is storing in array and displaying 
-todoList.push({
-  name : name,
-  date : date,
-});
 
-displayList();
-
-});
-
-function displayList(){
-  let tasksShowElem = document.querySelector('.tasksShow');
-  let html = '';
-  todoList.forEach((value,index)=>{
-   html += `<p class = "taskName">${value.name}</p><p   class="taskDate">${value.date}</p><button class="deleteButton"
-   onclick = "
-   todoList.splice(${index},1);
-   displayList();
-   "
-   >Delete Task</button>`;
-   
- })
-  tasksShowElem.innerHTML = html;
- 
-
-
+function deleteTodo(id) {
+    todos = todos.filter(todo => todo.id !== id);
+    renderTodos();
 }
+
+function toggleTodo(id) {
+    todos = todos.map(todo => 
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    renderTodos();
+}
+
+function renderTodos() {
+    todoList.innerHTML = '';
+    
+    todos.forEach(todo => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        
+        li.innerHTML = `
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} 
+                   onchange="toggleTodo(${todo.id})">
+            <span>${todo.text}</span>
+            <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+        `;
+        
+        todoList.appendChild(li);
+    });
+}
+
+addBtn.addEventListener('click', addTodo);
+todoInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addTodo();
+});
