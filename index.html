@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="todo-list.css" rel="stylesheet">
-  <link rel="icon" href="icons8-todo-list-50.png" type="image/x-icon">
-  
-  <title>Todo List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="Holder">
-    <p class="title">TODO LIST</p>
-    <div class="inner">
-        <input class="Todo-name" placeholder="Enter  Task" >
-        <input type="date" placeholder="date" class="Todo-date">
-        <button class="Add-button">ADD TODO</button>
+    <div class="container">
+        <h1>My Todo List</h1>
+        <div class="input-section">
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button id="addBtn">Add</button>
+        </div>
+        <ul id="todoList"></ul>
     </div>
-
-  <div class="tasksShow"></div>
-  </div>
-
-
-  <script src="todo-list.js">
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
